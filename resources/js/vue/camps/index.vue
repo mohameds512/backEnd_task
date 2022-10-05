@@ -49,10 +49,10 @@
 
                 <button @click="isOpen = camp.id ">show Imgs</button>
                 <pop-modal :open="isOpen === camp.id" @close="isOpen = false">
-                    {{camp.images}}
-                    <!-- <div class="camp_img" v-for="(camp_img,index) in camp.images " :key="index">
-                        <img src="/upload/" + camp_img  >
-                    </div> -->
+
+                    <div class="camp_img" v-for="(camp_img,index) in get_camp_img(camp.images) " :key="index">
+                        <img :src="get_path(camp_img)" >
+                    </div>
                 </pop-modal>
             </p>
             <div>
@@ -83,7 +83,6 @@
 <script>
 import { ref } from '@vue/reactivity';
 import axios from 'axios';
-import { decode } from 'punycode';
 import router from '../../router/index';
 import popModal from './popModal.vue'
 
@@ -141,6 +140,12 @@ export default ({
             .catch(err=>{
                 console.log(err);
             })
+        },
+        get_camp_img(camp_imgs){
+            return JSON.parse(camp_imgs);
+        },
+        get_path(img){
+            return '/upload/'+img ;
         }
     },
     created(){
